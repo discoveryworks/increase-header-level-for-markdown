@@ -5,8 +5,6 @@ const vscode = require('vscode');
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 
-
-
 /**
  * @param {vscode.ExtensionContext} context
  */
@@ -21,25 +19,6 @@ function escapeRegex(string) {// Add an escape character before the regular rete
 // ToAddAStringAfter, nee rp2：To Add a String After // 要加在后面的字符串
 // Text to be matched nee str // TextToBeMatched：待匹配的文本
 
-
-function RegInsertStr(OurRegEx, StringToBeAddedToTheFront, ToAddAStringAfter, TextToBeMatched) {
-    var OurArrayOfTargetText = TextToBeMatched.match(OurRegEx);
-    var ItemFromOurArrayOfTargetText = "";
-    var ModifiedTextPayload = "";
-    var OldTextPayload = null;
-
-    if (!OurArrayOfTargetText) return TextToBeMatched;
-
-    for (var i = 0; i < OurArrayOfTargetText.length; i++) {
-		ItemFromOurArrayOfTargetText = escapeRegex(OurArrayOfTargetText[i]);//若ItemFromOurArrayOfTargetText中有保留的字符： ] [ ) ( } { . * + ? ^ $ \ |   则之后OldTextPayload会无法匹配ItemFromOurArrayOfTargetText
-								//故使用自己定义的escapeRegex()在ItemFromOurArrayOfTargetText中可能出现的保留字符前面加上转义字符： \
-		OldTextPayload = new RegExp(ItemFromOurArrayOfTargetText, "g");
-		
-		ModifiedTextPayload = StringToBeAddedToTheFront + OurArrayOfTargetText[i] + ToAddAStringAfter;
-		TextToBeMatched = TextToBeMatched.replace(OldTextPayload, ModifiedTextPayload);
-    }
-    return TextToBeMatched;
-}
 function RegRemoveStr(OurRegEx, StringToBeAddedToTheFront, ToAddAStringAfter, TextToBeMatched) {
     var OurArrayOfTargetText = TextToBeMatched.match(OurRegEx);
     var ItemFromOurArrayOfTargetText = "";
@@ -53,10 +32,11 @@ function RegRemoveStr(OurRegEx, StringToBeAddedToTheFront, ToAddAStringAfter, Te
 								//故使用自己定义的escapeRegex()在ItemFromOurArrayOfTargetText中可能出现的保留字符前面加上转义字符： \
 		OldTextPayload = new RegExp(ItemFromOurArrayOfTargetText, "g");
 		
-		ModifiedTextPayload = StringToBeAddedToTheFront + OurArrayOfTargetText[i] + ToAddAStringAfter;
+		ModifiedTextPayload = StringToBeAddedToTheFront + OurArrayOfTargetText[i] + ToAddAStringAfter; // original version
 		TextToBeMatched = TextToBeMatched.replace(OldTextPayload, ModifiedTextPayload);
     }
-    return TextToBeMatched;
+
+    return TextToBeMatched.slice(2);
 }
 
 function activate(context) {
@@ -88,7 +68,7 @@ function activate(context) {
 		// var OurRegEx = new RegExp('(^\\s*\\#)\\s*((\\d+\\.)+)\\s+', "g");
 		for(let i = startLine; i <= endLine; i++) {
 			let curLineText = activeDocument.lineAt(i).text;                           //  Current Line Text Content  // 当前行文本内容
-			let curLine_plus = RegInsertStr(OurRegEx, "#", "", curLineText);               //  Add before the title // 在标题前面加#
+			let curLine_plus = RegRemoveStr(OurRegEx, "#", "", curLineText);               //  Rm `#` before the title
 
 			titleArr.push({
 				line: i,
