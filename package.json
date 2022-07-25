@@ -1,12 +1,12 @@
 {
 	"name": "increase-header-level-for-markdown",
 	"displayName": "Increase Header Level for Markdown",
-	"description": "Increase header hierarchy (e.g., h2=>h1) in Markdown",
-	"version": "1.2.0",
+	"description": "Increase Header Hierarchy (e.g., h2=>h1) in Markdown",
+	"version": "1.2.1",
 	"publisher": "discoveryworks",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/jonathanpberger/increase-header-level-for-markdown"
+		"url": "https://github.com/discoveryworks/increase-header-level-for-markdown"
 	},
 	"engines": {
 		"vscode": "^1.47.0"
@@ -22,7 +22,7 @@
 		"commands": [
 			{
 				"command": "extension.increase_header_level_for_markdown",
-				"title": "increase header level for Markdown"
+				"title": "Increase Header Level For Markdown"
 			}
 		],
 		"keybindings": [
