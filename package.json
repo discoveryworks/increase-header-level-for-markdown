@@ -1,12 +1,12 @@
 {
-	"name": "lower-header-level-for-markdown",
-	"displayName": "lower header level for Markdown",
-	"description": "A tool for making levels of headers lower in Markdown",
-	"version": "1.0.3",
-	"publisher": "ruichima",
+	"name": "increase-header-level-for-markdown",
+	"displayName": "increase header level for Markdown",
+	"description": "A tool for making levels of headers higher (in hierarchy) in Markdown",
+	"version": "1.0.0",
+	"publisher": "discoveryworks",
 	"repository": {
 		"type": "git",
-		"url":"https://github.com/ruichima/markdown-lower-headers-levels"
+		"url":"https://github.com/jonathanpberger/increase-header-level-for-markdown"
 	},
 	"engines": {
 		"vscode": "^1.47.0"
@@ -15,20 +15,20 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:extension.lower_header_level_for_markdown"
+		"onCommand:extension.increase_header_level_for_markdown"
 	],
 	"main": "./extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "extension.lower_header_level_for_markdown",
-				"title": "lower header level for Markdown"
+				"command": "extension.increase_header_level_for_markdown",
+				"title": "increase header level for Markdown"
 			}
 		],
 		"keybindings": [
 			{
-				"command": "extension.lower_header_level_for_markdown",
-				"key": "ctrl+shift+3"
+				"command": "extension.increase_header_level_for_markdown",
+				"key": "ctrl+shift+4"
 			}
 		]
 	},
