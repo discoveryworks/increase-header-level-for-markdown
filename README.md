@@ -29,6 +29,9 @@ https://github.com/jonathanpberger/increase-header-level-for-markdown
 
 ## Release Notes
 
+### 1.0.1
+
+Documentation update.
 ### 1.0.0
 
 Initial release.
