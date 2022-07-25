@@ -2,11 +2,11 @@
 	"name": "increase-header-level-for-markdown",
 	"displayName": "increase header level for Markdown",
 	"description": "A tool for making levels of headers higher (in hierarchy) in Markdown",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"publisher": "discoveryworks",
 	"repository": {
 		"type": "git",
-		"url":"https://github.com/jonathanpberger/increase-header-level-for-markdown"
+		"url": "https://github.com/jonathanpberger/increase-header-level-for-markdown"
 	},
 	"engines": {
 		"vscode": "^1.47.0"
