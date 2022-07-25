@@ -9,10 +9,9 @@ It's based on [Lower Header Level for Markdown](https://github.com/ruichima/lowe
 - increase the levels of all headers in the selected part of a Markdown file.
 <!-- - increase the levels of all headers in the selected part of a Markdown file. See an example below. -->
 
-<!-- TODO: Add gif of extension in action -->
-<!-- <div  align="center"> -->
-<!-- <img src="./img/features.gif" width = "70%" height = "70%" align=center /> -->
-<!-- </div> -->
+<div  align="center">
+<img src="./img/features.gif" width = "70%" height = "70%" align=center />
+</div>
 
 ## Install
 
