@@ -11,12 +11,17 @@ const vscode = require('vscode');
  * @param {vscode.ExtensionContext} context
  */
 
-function escapeRegex(string) {//在正则保留字符前面加上转义字符： \
+function escapeRegex(string) {// Add an escape character before the regular retention character: // 在正则保留字符前面加上转义字符： \
     return string.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
 }
 
-// 给待匹配的文本中所有匹配正则表达式的字符串的前面或者后面加字符串的函数
-// re：正则表达式， rp1：要加在前面的字符串， rp2：要加在后面的字符串， str：待匹配的文本
+// Functions that add strings before or after all strings that match regular expressions in the text to be matched // 给待匹配的文本中所有匹配正则表达式的字符串的前面或者后面加字符串的函数
+// re：正则表达式， 
+// rp1：String to be added to the front // 要加在前面的字符串
+// rp2：To Add a String After // 要加在后面的字符串
+//  Text to be matched // str：待匹配的文本
+
+
 function RegInsertStr(re, rp1, rp2, str) {
     var arr = str.match(re);
     var ret = "";
@@ -45,27 +50,27 @@ function activate(context) {
 	// The command has been defined in the package.json file
 	// Now provide the implementation of the command with  registerCommand
 	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('extension.lower_header_level_for_markdown', function () {
+	let disposable = vscode.commands.registerCommand('extension.increase_header_level_for_markdown', function () {
 		// The code you place here will be executed every time your command is executed
 
 		let activeTextEditor = vscode.window.activeTextEditor;
 		let activeDocument = activeTextEditor.document;
 
-		// 1. 获取所有选中行信息
+		// 1.  Get All Selected Line Information // 获取所有选中行信息
 		let selection = vscode.window.activeTextEditor.selection;
 
-		// 起止行行号
+		//  Start and end line number  // 起止行行号
 		let startLine = selection.start.line;
 		let endLine = selection.end.line;
 
-		// 2. 获取每行的文本信息，是标题的存入数组
-		let titleArr = [];                                                           // 选中行信息缓存数组
+		// 2. Gets text information for each line, which is a stored array of headers // 获取每行的文本信息，是标题的存入数组
+		let titleArr = [];                                                           //  Select Line Information Cache Array // 选中行信息缓存数组
 		var re = new RegExp('^#+.*', "gm");
 		// var re = new RegExp('^[^\n\r]\s*#+.*', "gm");
 		// var re = new RegExp('(^\\s*\\#)\\s*((\\d+\\.)+)\\s+', "g");
 		for(let i = startLine; i <= endLine; i++) {
-			let curLineText = activeDocument.lineAt(i).text;                           // 当前行文本内容
-			let curLine_plus = RegInsertStr(re, "#", "", curLineText);               // 在标题前面加#
+			let curLineText = activeDocument.lineAt(i).text;                           //  Current Line Text Content  // 当前行文本内容
+			let curLine_plus = RegInsertStr(re, "#", "", curLineText);               //  Add before the title // 在标题前面加#
 
 			titleArr.push({
 				line: i,
@@ -76,14 +81,14 @@ function activate(context) {
 		}
 		
 		
-		// 3. 把前面加了#的新标题提取出来
+		// 3. Extract the new title w/ '#' // 把前面加了#的新标题提取出来
 		let newText = titleArr.map(item => {
 			return item.curLine_plus;
 		});
 		//vscode.Range4个参数的含义：startLine, startCharacter, endLine, endCharacter
 		let replaceRange = new vscode.Range(startLine, 0, endLine, titleArr[titleArr.length - 1].lineLength);
 		
-		// 4. 调用编辑接口，用前面加了#的新标题，替换原来的标题
+		// 4. Call the edit interface to replace the original title with a new title with '#' // 调用编辑接口，用前面加了#的新标题，替换原来的标题
 		activeTextEditor.edit((TextEditorEdit) => {
 			TextEditorEdit.replace(replaceRange, newText.join('\n'));
 		});
