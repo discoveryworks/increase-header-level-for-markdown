@@ -2,7 +2,7 @@
 	"name": "increase-header-level-for-markdown",
 	"displayName": "increase header level for Markdown",
 	"description": "A tool for making levels of headers higher (in hierarchy) in Markdown",
-	"version": "1.0.2",
+	"version": "1.1.0",
 	"publisher": "discoveryworks",
 	"repository": {
 		"type": "git",
