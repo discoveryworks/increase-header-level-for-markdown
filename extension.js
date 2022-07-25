@@ -16,29 +16,47 @@ function escapeRegex(string) {// Add an escape character before the regular rete
 }
 
 // Functions that add strings before or after all strings that match regular expressions in the text to be matched // 给待匹配的文本中所有匹配正则表达式的字符串的前面或者后面加字符串的函数
-// re：正则表达式， 
-// rp1：String to be added to the front // 要加在前面的字符串
-// rp2：To Add a String After // 要加在后面的字符串
-//  Text to be matched // str：待匹配的文本
+// OurRegEx, nee re：正则表达式， 
+// StringToBeAddedToTheFront, nee rp1 ：String to be added to the front // 要加在前面的字符串
+// ToAddAStringAfter, nee rp2：To Add a String After // 要加在后面的字符串
+// Text to be matched nee str // TextToBeMatched：待匹配的文本
 
 
-function RegInsertStr(re, rp1, rp2, str) {
-    var arr = str.match(re);
-    var ret = "";
-    var rpt = "";
-    var re2 = null;
+function RegInsertStr(OurRegEx, StringToBeAddedToTheFront, ToAddAStringAfter, TextToBeMatched) {
+    var OurArrayOfTargetText = TextToBeMatched.match(OurRegEx);
+    var ItemFromOurArrayOfTargetText = "";
+    var ModifiedTextPayload = "";
+    var OldTextPayload = null;
 
-    if (!arr) return str;
+    if (!OurArrayOfTargetText) return TextToBeMatched;
 
-    for (var i = 0; i < arr.length; i++) {
-		ret = escapeRegex(arr[i]);//若ret中有保留的字符： ] [ ) ( } { . * + ? ^ $ \ |   则之后re2会无法匹配ret
-								//故使用自己定义的escapeRegex()在ret中可能出现的保留字符前面加上转义字符： \
-		re2 = new RegExp(ret, "g");
+    for (var i = 0; i < OurArrayOfTargetText.length; i++) {
+		ItemFromOurArrayOfTargetText = escapeRegex(OurArrayOfTargetText[i]);//若ItemFromOurArrayOfTargetText中有保留的字符： ] [ ) ( } { . * + ? ^ $ \ |   则之后OldTextPayload会无法匹配ItemFromOurArrayOfTargetText
+								//故使用自己定义的escapeRegex()在ItemFromOurArrayOfTargetText中可能出现的保留字符前面加上转义字符： \
+		OldTextPayload = new RegExp(ItemFromOurArrayOfTargetText, "g");
 		
-		rpt = rp1 + arr[i] + rp2;
-		str = str.replace(re2, rpt);
+		ModifiedTextPayload = StringToBeAddedToTheFront + OurArrayOfTargetText[i] + ToAddAStringAfter;
+		TextToBeMatched = TextToBeMatched.replace(OldTextPayload, ModifiedTextPayload);
     }
-    return str;
+    return TextToBeMatched;
+}
+function RegRemoveStr(OurRegEx, StringToBeAddedToTheFront, ToAddAStringAfter, TextToBeMatched) {
+    var OurArrayOfTargetText = TextToBeMatched.match(OurRegEx);
+    var ItemFromOurArrayOfTargetText = "";
+    var ModifiedTextPayload = "";
+    var OldTextPayload = null;
+
+    if (!OurArrayOfTargetText) return TextToBeMatched;
+
+    for (var i = 0; i < OurArrayOfTargetText.length; i++) {
+		ItemFromOurArrayOfTargetText = escapeRegex(OurArrayOfTargetText[i]);//若ItemFromOurArrayOfTargetText中有保留的字符： ] [ ) ( } { . * + ? ^ $ \ |   则之后OldTextPayload会无法匹配ItemFromOurArrayOfTargetText
+								//故使用自己定义的escapeRegex()在ItemFromOurArrayOfTargetText中可能出现的保留字符前面加上转义字符： \
+		OldTextPayload = new RegExp(ItemFromOurArrayOfTargetText, "g");
+		
+		ModifiedTextPayload = StringToBeAddedToTheFront + OurArrayOfTargetText[i] + ToAddAStringAfter;
+		TextToBeMatched = TextToBeMatched.replace(OldTextPayload, ModifiedTextPayload);
+    }
+    return TextToBeMatched;
 }
 
 function activate(context) {
@@ -65,12 +83,12 @@ function activate(context) {
 
 		// 2. Gets text information for each line, which is a stored array of headers // 获取每行的文本信息，是标题的存入数组
 		let titleArr = [];                                                           //  Select Line Information Cache Array // 选中行信息缓存数组
-		var re = new RegExp('^#+.*', "gm");
-		// var re = new RegExp('^[^\n\r]\s*#+.*', "gm");
-		// var re = new RegExp('(^\\s*\\#)\\s*((\\d+\\.)+)\\s+', "g");
+		var OurRegEx = new RegExp('^#+.*', "gm");
+		// var OurRegEx = new RegExp('^[^\n\r]\s*#+.*', "gm");
+		// var OurRegEx = new RegExp('(^\\s*\\#)\\s*((\\d+\\.)+)\\s+', "g");
 		for(let i = startLine; i <= endLine; i++) {
 			let curLineText = activeDocument.lineAt(i).text;                           //  Current Line Text Content  // 当前行文本内容
-			let curLine_plus = RegInsertStr(re, "#", "", curLineText);               //  Add before the title // 在标题前面加#
+			let curLine_plus = RegInsertStr(OurRegEx, "#", "", curLineText);               //  Add before the title // 在标题前面加#
 
 			titleArr.push({
 				line: i,
